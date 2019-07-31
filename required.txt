@@ -1,0 +1,7 @@
+django
+django-registration
+Pillow
+django-widget-tweaks
+django-crispy-forms
+django-filter
+djangorestframework

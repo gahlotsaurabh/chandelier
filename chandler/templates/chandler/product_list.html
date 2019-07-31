@@ -1,0 +1,99 @@
+{% extends "chandler/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<!-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script> -->
+<!-- <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
+<!-- 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script> -->
+
+  <!-- <div class="row">
+	<div class="col-md-12"> -->
+<div class="main"> 
+	<div class="row">
+		<div class="col-4 text-left">
+			<a href='/chandler/products'>
+			<h4 class="glyphicon h2 glyphicon-plus text-success border border-secondary px-2 " data-toggle="tooltip" title="Add new product"></h4>
+			</a>
+		</div>
+		<div class="col-8">
+			<h2 class="text-left">Product List</h2>
+		</div>
+	</div>
+      <div class="table-responsive row justify-content-center">     
+   		<table id="mytable" class="table table-bordered table-hover table-responsive table-striped w-100 d-block d-md-table jumbotron">  
+	        <thead class="">         
+	         <th></th>
+	             <th>Product id</th> 
+	             <th>Product Name</th>
+	             <!-- <th>Description</th> -->
+	             <th>Quantity</th>
+	             <th>Price</th>
+	             <th>Edit</th>
+	             <th>Delete</th>
+	        </thead>
+  	{% for i in object_list %}
+    
+	    	<tbody class="table-striped">
+			  <tr>
+			    <td><input type="checkbox" class="checkthis" /></td>
+			    <td>{{ i.product_id }}</td>
+			    <td><a href='/chandler/product_detail/{{ i.product_id }}'>{{ i.product_name }}</a></td>
+			    <!-- <td>{{ i.product_description }}</td> -->
+			    <td>{{ i.quantity }}</td>
+			    <td>{{ i.price }}</td>
+			    <td>
+			    	<!-- <p data-placement="top" data-toggle="tooltip" title="Edit">
+			    		<button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" > -->
+			    		 <a href='/chandler/{{ i.product_id }}/product_update'>
+			    			
+			    		<span class="glyphicon glyphicon-edit"></span>
+			    		
+			    		</a>
+			     <!-- </button></p>	 -->
+			    </td>
+			    <td>
+			    	<a href='/chandler/{{ i.product_id }}/product_delete'>
+			    		<span class="glyphicon glyphicon-trash text-danger"></span>
+			    	</a>
+			    </td>
+	          </tr> 
+	    	</tbody>
+	   <!-- {% if i.image1 %}
+	      <img src="{{ i.image1.url }}">
+	   {% else %}
+	      <p>none</p>
+	   {% endif %} -->
+    {% endfor %} 
+   		</table>
+<input type="hidden" id="refresh" value="no">
+  
+  <!-- <form action="" method="get">
+    <input type='text' name='q' id='q'></input>
+    <input type='submit' value='search!'></input>
+    </form>
+    {% for obj in product %}
+       <p> {{ obj.product_name }} - ${{ obj.price }}</p> <br>
+    {% endfor %} -->
+
+
+<!-- <div class="clearfix"></div> -->
+<!-- <ul class="pagination pull-right">
+		  <li class="disabled"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+		  <li class="active"><a href="#">1</a></li>
+		  <li><a href="#">2</a></li>
+		  <li><a href="#">3</a></li>
+		  <li><a href="#">4</a></li>
+		  <li><a href="#">5</a></li>
+		  <li><a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+</ul> -->
+		</div>                
+     </div> 
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="{% static 'chandler/product_list.js' %}"></script>
+{% endblock script %}

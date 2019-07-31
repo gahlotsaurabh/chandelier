@@ -1,0 +1,158 @@
+{% extends "chandler/base.html" %}
+{% load staticfiles %}
+
+{% block title %}dashboard{% endblock %}
+
+{% block content %}
+
+
+{% if user.is_authenticated %}
+
+<head>  
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"> 
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body id="index">
+<div class="main text-center">
+  <div class="container">
+    <div class="row">
+       <div class="col-md-4 col-*-6 m-4">
+                <div class="card shadow bg-c-green order-card">
+                    <div class="card-header h4 text-left">Gross Revenue</div>
+                    <div class="card-body">
+                        <h3 class="text-right"><i class="fa fa-rocket f-left"></i><span>486</span></h3>
+                    </div>
+                    <div class="card-footer "><p class=""><span class="f-left">Completed Orders</span><span class="f-right">351</span></p></div>
+                </div>
+            </div>
+            <div class="col-md-4 col-*-6 m-4">
+                <div class="card shadow bg-c-green order-card">
+                    <div class="card-block">
+                        <h5 class="text-left">Orders Received</h5>
+                        <h2 class="text-right"><i class="fa fa-cart-plus f-left"></i><span>486</span></h2>
+                        <p class="m-b-0">Completed Orders<span class="f-right">351</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-*-6 m-4">
+                <div class="card shadow bg-c-green order-card">
+                    <div class="card-block">
+                        <h5 class="text-left">Net Revenue</h5>
+                        <h2 class="text-right"><i class="fa fa-credit-card f-left"></i><span>486</span></h2>
+                        <p class="m-b-0">Completed Orders<span class="f-right">351</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-*-6 m-4">
+                <div class="card shadow bg-c-green order-card">
+                    <div class="card-block">
+                        <h5 class="text-left">Items Sold</h5>
+                        <h2 class="text-right"><i class="fa fa-refresh f-left"></i><span>486</span></h2>
+                        <p class="m-b-0">Completed Orders<span class="f-right">351</span></p>
+                    </div>
+                </div>
+            </div>
+    </div>
+  </div>
+  <div class="chart-container" id="mycha" >
+    <canvas id="myChart" ></canvas>
+  </div>
+</div>
+</body>
+    {% else %}
+     <div id="secmain">
+      <div class="container-fluid" id="cont">
+        <div id="carouselExampleIndicators" class="w-100 container-fluid carousel slide" data-ride="carousel">
+          <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+          </ol>
+          <div class="carousel-inner" role="listbox">
+          
+            <div class="carousel-item active" style="background-image: url('https://demotutorials.xyz/test/wp-content/uploads/home-decor/extras/WhatsApp-Image-2019-07-17-at-14.50.17-1.jpg')">
+              <div class="carousel-caption d-none d-md-block">
+              </div>
+            </div>
+            
+            <div class="carousel-item" style="background-image: url('https://demotutorials.xyz/test/wp-content/uploads/home-decor/extras/WhatsApp-Image-2019-07-17-at-14.50.13.jpg')">
+              <div class="carousel-caption d-none d-md-block">
+                <h3 class="display-4">Second Slide</h3>
+                <p class="lead">This is a description for the second slide.</p>
+              </div>
+            </div>
+           
+            <div class="carousel-item" style="background-image: url('https://demotutorials.xyz/test/wp-content/uploads/home-decor/WhatsApp-Image-2019-07-17-at-14.49.10.jpeg')">
+              <div class="carousel-caption d-none d-md-block">
+                <h3 class="display-4">Third Slide</h3>
+                <p class="lead">This is a description for the third slide.</p>
+              </div>
+            </div>
+          </div>
+              <a class="container-fluid carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+              </a>
+              <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+              </a>
+        </div>
+      </div>
+    </div>
+      <section class="py-5">
+        <div class="container-fluid jumbotron">
+          <h1 class="font-weight-light"></h1>
+          <p class="lead"><a href=" "></a></p>
+        </div>
+      </section>
+{% endif %}
+
+{% endblock %}
+{% block script %}
+  <script type="text/javascript" src="{% static 'chandler/chandler.js' %}"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js" integrity="sha256-Uv9BNBucvCPipKQ2NS9wYpJmi8DTOEfTA/nH2aoJALw=" crossorigin="anonymous"></script>
+<script>
+      window.onload=(function(){ 
+      var ctx = document.getElementById('myChart');
+      var myChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+              labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', ],
+              datasets: [{
+                  label: '# of Votes',
+                  data: [12, 19, 3, 5, 2, ],
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      'rgba(54, 162, 235, 0.2)',
+                      'rgba(255, 206, 86, 0.2)',
+                      'rgba(75, 192, 192, 0.2)',
+                      'rgba(153, 102, 255, 0.2)',
+                      'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255, 99, 132, 1)',
+                      'rgba(54, 162, 235, 1)',
+                      'rgba(255, 206, 86, 1)',
+                      'rgba(75, 192, 192, 1)',
+                      'rgba(153, 102, 255, 1)',
+                      'rgba(255, 159, 64, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              scales: {
+                  yAxes: [{
+                      ticks: {
+                          beginAtZero: true
+                      }
+                  }]
+              }
+          }
+      });
+      });
+</script>
+ 
+{% endblock script %}

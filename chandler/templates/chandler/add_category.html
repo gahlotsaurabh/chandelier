@@ -1,0 +1,43 @@
+{% extends "chandler/base.html" %}
+
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+{% if user.is_authenticated %}
+
+<div class="container jumbotron main" >
+<h2 class="pl-3">Add new category here...</h2>
+	<form method="POST" class="form1" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-6">
+        {{ form.category_name|as_crispy_field }}
+      </div>
+       <div class="col-6">
+        {{ form.cate_fk|as_crispy_field }}
+      </div>
+    </div>
+    
+    <div class="p-3">
+   	 <button type="submit" class="btn btn-success">Save!</button>
+    </div>
+  </form>
+
+</div>
+{% else %}
+
+<h2>Please login first!!!!</h2>
+
+{% endif %}
+<script type="text/javascript">
+$(document).ready(function(){
+    $("select.select").change(function(){
+        var selectedCountry = $(this).children("option:selected").text();
+        document.getElementById("id_category_name").value = selectedCountry;
+    });
+});
+</script>
+
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "chandler/base.html" %}
+
+{% load staticfiles %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/product_detail.css' %}">
+
+<div class="container main bootstrap snippets">
+<div class="row">
+  <div class="col-xs-12 col-sm-9">
+        <div class="panel panel-default">
+          <div class="panel-body text-center">
+          	{% if object.profile_pic %}
+           <img id="pro_pic" src="{{ object.profile_pic.url }}" alt="https://bootdey.com/img/Content/avatar/avatar6.png" class="img-circle profile-avatar">
+           {% else %}
+           <h3>no profile pic</h3>
+           {% endif %}
+          </div>
+        </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+        <h4 class="panel-title">User info</h4>
+        </div>
+        <div class="panel-body">
+          
+          <div class="">
+            <p class="col-sm-4  h4 ">Name:</p>
+            <p class="col-sm-8 h4">
+              {{ object.user.first_name }} {{ object.user.last_name }}</p>
+          </div>
+          <div class="">
+            <p class="col-sm-4  h4">User Name:</p>
+            <p class="col-sm-8 h4 ">
+              {{ object.user }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+        <h4 class="panel-title">Contact info</h4>
+        </div>
+        <div class="panel-body">
+          <div class="form-group row">
+            <p class="col-4">Mobile number:</p>
+            <p class="col-8">{{ object.mobile_no }}</p>
+          </div>
+          <div class="form-group row">
+            <p class="col-4">Email address:</p>
+            <p class="col-8">{{ object.user.email }}</p>
+          </div>
+          <div class="form-group row">
+            <p class="col-4">Home address:</p>
+            <p class="col-8 text-justify">{{ object.address }}</p>
+          </div>
+          </div>
+          
+        </div>
+        
+      </div>
+  </div>
+</div>
+{% endblock %}

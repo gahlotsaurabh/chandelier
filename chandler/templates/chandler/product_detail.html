@@ -1,0 +1,98 @@
+{% extends "chandler/base.html" %}
+
+{% load staticfiles %}
+
+{% block content %}
+<div class="row main">
+    <div class="col-lg-7 mx-auto text-center pt-5">
+        <h5 class="display-4">Product Details</h5>
+      
+    </div>
+</div>
+    <div class="bg-dark main shadow rounded overflow-hidden">
+                <div class="align-items-end profile-header">
+                   <div class="row border border-white text-white">
+                    <div class="col-4 h4 tetx-right">
+                        Product Name :
+                    </div>
+                         <div class="text-left col-8 h4">{{ object.product_name }}</div>
+                    </div>
+                    <div class="row text-white">
+                    <div class="col-4 h4 tetx-right">
+                        Price :
+                    </div>
+                         <div class="text-left col-8 h4">Rs. {{ object.price }}
+                         </div>
+                    </div>
+                    <div class="row text-white">
+                    <div class="col-4 h4 tetx-right">
+                        Available quantity  :
+                    </div>
+                         <div class="text-left col-8 h4"> {{ object.quantity }}</div>
+                    </div>
+<!--                     <div class=" mb-4 text-white">
+                        <h5 class="h4" >Price  =  Rs. {{ object.price }}</h5>
+                        <h5 class="h4">Available quantity  :  {{ object.quantity }}</h5> -->
+                        <p class="small mb-4"> <i class="fa fa-map-marker mr-2"></i></p>
+                    </div>
+                </div>
+            </div>
+    <div class="py-4 main">
+                <div class="row jumbotron">
+                    <div class="col-2">
+                    <p class="h4">Description:
+                    </p>
+                    </div>
+                    <div class="col-10 border"> <p> {{ object.product_description }}</p></div>
+                </div>
+            <div class="py-4 px-4">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+	                    <h5 class="mb-0">photos</h5>
+                </div>
+                <div class="py-4" id="pri">
+                   <!-- <ul> -->
+                    <!-- <li>      -->
+                    {% if object.image1 %}
+                    <img id="proimg" class="" src="{{ object.image1.url }}" alt="empty2">
+                    {% else %}
+                     <p>empty</p>
+                    {% endif %}
+                    <!-- </li> -->
+                   
+                    <!-- <li> -->
+                    {% if object.image2 %}
+                    <img id="proimg" src="{{ object.image2.url }}">
+                    {% else %}
+                     <p>empty image 2</p>
+                    {% endif %}
+                    <!-- </li> -->
+                    
+                    <!-- <li> -->
+                    {% if object.image3 %}
+                    <img id="proimg" src="{{ object.image3.url }}">
+                    {% else %}
+                     <p>empty image 3</p>
+                    {% endif %}
+                    <!-- </li> -->
+
+                    <!-- <li> -->
+                    {% if object.image4 %}
+                    <img id="proimg" src="{{ object.image4.url }}">
+                    {% else %}
+                     <p>empty image 4</p>
+                    {% endif %}
+                    <!-- </li> -->
+
+                    <!-- <li> -->
+                    {% if object.image5 %}
+                    <img id="proimg" src="{{ object.image5.url }}">
+                    {% else %}
+                     <p>empty image 5</p>
+                    {% endif %}
+                    <!-- </li>   -->
+                   <!-- </ul> -->   
+                </div>
+            </div>
+    </div>
+<link rel="stylesheet" href="{% static 'css/product_detail.css' %}">
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "chandler/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+<div class="main"> 
+	<div class="row">
+		<div class="col-4 text-left">
+			<a href='/chandler/register'>
+			<h4 class="glyphicon h2 glyphicon-plus text-success border border-secondary px-2" data-toggle="tooltip" title="Add new User"></h4>
+			</a>
+		</div>
+		<div class="col-8">
+			<h2 class="text-left">Product List</h2>
+		</div>
+	</div>
+      <div class="table-responsive row justify-content-center">     
+   		<table class="table table-bordered table-hover table-responsive  table-striped text-center w-100 d-block d-md-table">  
+	        <thead class="text-center">         
+	         <th><input type="checkbox" id="checkall" /></th>
+	             <th>User id</th> 
+	             <th>User Name</th>
+	             <th>First name</th>
+	             <th>Last name</th>
+	             <th>Email</th>
+	             <th>Mobile No.</th>
+	             <th>Address</th>
+	             <th>edit</th>
+	             <th>Delete</th>
+	        </thead>
+  	{% for i in profile_list %}
+    
+	    	<tbody class="table-striped text-center">
+			  <tr>
+			  	<th><input type="checkbox" id="checkall" /></th>
+			    <td>{{ i.id }}</td>
+			    <td><a href='/chandler/user_detail/{{ i.id }}'>{{ i.user.username }}</a></td>
+			    <td>{{ i.user.first_name }}</td>
+			    <td>{{ i.user.last_name }}</td>
+			    <td>{{ i.user.email }}</td>
+			    <td>{{ i.mobile_no }}</td>
+			    <td>{{ i.address }}</td>
+			    <td>
+			    	<a href=''>
+			    	<span class="glyphicon glyphicon-edit"></span>
+			    	</a>
+			    </td>
+			    <td>
+			    	<a href='/chandler/{{ i.id }}/user_delete'>
+			    	<span class="glyphicon glyphicon-trash text-danger"></span>
+			    	</a>
+			    </td>
+	          </tr> 
+	    	</tbody>
+    {% endfor %} 
+   		</table>
+<input type="hidden" id="refresh" value="no">
+		</div>                
+     </div> 
+{% endblock %}
+
+{% block script %}
+  <script type="text/javascript" src="{% static 'chandler/product_list.js' %}"></script>
+{% endblock script %}

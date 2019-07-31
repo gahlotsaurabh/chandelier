@@ -1,0 +1,18 @@
+.profile-header {
+    transform: translateY(4rem);
+}
+
+
+/*
+*
+* ==========================================
+* FOR DEMO PURPOSE
+* ==========================================
+*
+*/
+body {
+    /*background: #654ea3;*/
+    /*background: -webkit-linear-gradient(to right, #654ea3, #eaafc8);*/
+    /*background: linear-gradient(to right, #654ea3, #eaafc8);*/
+    min-height: 50vh;
+}

@@ -1,0 +1,19 @@
+{% extends "chandler/base.html" %}
+
+{% load staticfiles %}
+
+{% block content %}
+<div class="row main">
+    <div class="col-lg-7 mx-auto text-center pt-5">
+        <h5 class="display-4">Product Details</h5>
+      
+    </div>
+        </div>
+    <div class="main">
+            <div class="media-body mb-5 text-center bg-dark text-white">
+            	<h4 class="h3">Category Name  : {{ object.category_name }}</h4>
+                <p>category relation : {{ object.cate_fk }}</p>
+            </div>
+    </div>
+<link rel="stylesheet" href="{% static 'css/product_detail.css' %}">
+{% endblock %}

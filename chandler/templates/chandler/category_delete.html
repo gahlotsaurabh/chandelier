@@ -1,0 +1,18 @@
+{% extends "chandler/base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+{% if user.is_authenticated %}
+	<div class="main text-center jumbotron" id="del">
+		<form method="post" enctype="multipart/form-data" action="" >
+		<h2>confirm delete   {{ object.category_name }}!!??</h2>
+		{% csrf_token %}
+		<button class="btn btn-danger" type="input" value="yes">yes</button><a class="pl-4" href="../../chandler/category_list">Cancel</a>
+		</form>
+	</div>
+{% else %}
+<h2>Please login first!!!!</h2>
+{% endif %}
+{% endblock %}
