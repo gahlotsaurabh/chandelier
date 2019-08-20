@@ -1,0 +1,70 @@
+{% extends "chandler/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+	<div class="col-md-12">
+<div class="main"> 
+	<div class="row">
+		<div class="col-4 text-left">	
+			<a href='/chandler/discount'>
+			<h4 class="glyphicon h2 glyphicon-plus text-success border border-secondary px-2" data-toggle="tooltip" title="Add new coupon"></h4>
+			</a>
+		</div>
+		<div class="col-8">
+			<h2 class="text-left">Coupon List</h2>
+		</div>
+	</div>
+      <div class="table-responsive row justify-content-center">     
+   		<table id="mytable" class="table table-bordered table-hover table-responsive table-striped  w-100 d-block d-md-table">  
+	        <thead class="text-center">         
+	         <th><input type="checkbox" id="checkall" /></th>
+	             <th>Coupon id</th> 
+	             <th>Coupon Name</th>
+	             <th>Value</th>
+	             <th>Code</th>
+	             <th>Type</th>
+	             <th>Start Date</th>
+	             <th>End Date</th>
+	             <th>Edit</th>
+	             <th>Delete</th>
+	        </thead>
+  	{% for i in object_list %}
+    
+	    	<tbody class="table-striped ">
+			  <tr>
+			    <td><input type="checkbox" class="checkthis" /></td>
+			    <td>{{ i.coupon_id }}</td>
+			    <td><a href='/chandler/discount_detail/{{ i.coupon_id }}'>{{ i.coupon_name }}</a></td>
+			    <td>{{ i.value }}</td>
+			    <td>{{ i.coupon_code }}</td>
+			    {% if i.coupon_type == 1 %}
+			    	<td>Flat</td>
+			    {% else %}
+			    	<td>Percent</td>
+			    {% endif %}
+			    <td>{{ i.start_date_coupon }}</td>
+			    <td>{{ i.end_date_coupon }}</td>
+			    <td>
+			    	<a href='/chandler/{{ i.coupon_id }}/discount_update'>
+			    	<span class="glyphicon glyphicon-edit"></span>
+			    	</a>
+			    </td>
+			    <td>
+			    	<a href='/chandler/{{ i.coupon_id }}/discount_delete'>
+			    	<span class="glyphicon glyphicon-trash text-danger"></span>
+			    	</a>
+			    </td>
+	          </tr> 
+	    	</tbody>
+    {% endfor %} 
+   		</table>
+	<input type="hidden" id="refresh" value="no">
+		</div>                
+</div> 
+{% endblock %}
+
+{% block script %}
+  <script type="text/javascript" src="{% static 'chandler/product_list.js' %}"></script>
+{% endblock script %}

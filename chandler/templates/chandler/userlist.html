@@ -13,11 +13,11 @@
 			</a>
 		</div>
 		<div class="col-8">
-			<h2 class="text-left">Product List</h2>
+			<h2 class="text-left">User List</h2>
 		</div>
 	</div>
       <div class="table-responsive row justify-content-center">     
-   		<table class="table table-bordered table-hover table-responsive  table-striped text-center w-100 d-block d-md-table">  
+   		<table class="table table-bordered table-hover table-responsive  table-striped w-100 d-block d-md-table">  
 	        <thead class="text-center">         
 	         <th><input type="checkbox" id="checkall" /></th>
 	             <th>User id</th> 
@@ -27,12 +27,11 @@
 	             <th>Email</th>
 	             <th>Mobile No.</th>
 	             <th>Address</th>
-	             <th>edit</th>
 	             <th>Delete</th>
 	        </thead>
   	{% for i in profile_list %}
     
-	    	<tbody class="table-striped text-center">
+	    	<tbody class="table-striped ">
 			  <tr>
 			  	<th><input type="checkbox" id="checkall" /></th>
 			    <td>{{ i.id }}</td>
@@ -42,11 +41,6 @@
 			    <td>{{ i.user.email }}</td>
 			    <td>{{ i.mobile_no }}</td>
 			    <td>{{ i.address }}</td>
-			    <td>
-			    	<a href=''>
-			    	<span class="glyphicon glyphicon-edit"></span>
-			    	</a>
-			    </td>
 			    <td>
 			    	<a href='/chandler/{{ i.id }}/user_delete'>
 			    	<span class="glyphicon glyphicon-trash text-danger"></span>

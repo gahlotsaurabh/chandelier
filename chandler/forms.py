@@ -1,7 +1,10 @@
 from django import forms
-from chandler.models import Profile, Product, Category
+from chandler.models import Profile, Product, Category,Discount,Tax
 from django.contrib.auth.models import User
 from django.forms.formsets import formset_factory
+from bootstrap_datepicker_plus import DatePickerInput
+from datetime import date
+# from django.contrib.admin.widgets import AdminDateWidget
 	
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
@@ -21,6 +24,9 @@ class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
         fields = ('category_name','cate_fk' )
+        labels = {
+            'cate_fk': ('Parent'),
+            }
 
 class ProductForm(forms.ModelForm):
     # product_category_fk = CategoryFormset
@@ -28,18 +34,31 @@ class ProductForm(forms.ModelForm):
         model  = Product
         fields = ('product_category_fk','product_name','product_description','price','quantity','image1','image2','image3','image4','image5',)
 
-# class ProductForm(forms.ModelForm):
-#     product_name = forms.CharField(max_length=128)
-#     product_description = forms.CharField(max_length=500, label="Item Description.")
-#     price = forms.IntegerField()
-#     quantity = forms.IntegerField()
-#     class Meta:
-#         model = Product
-#         fields = ('product_name','product_description','price','quantity',)
+class DiscountForm(forms.ModelForm):
+    # start_date_coupon = forms.DateFeild()
+    # end_date_coupon   = forms.DateFeild()
+    # end_date_coupon = forms.DateField(widget=forms.DateInput(attrs={'class': 'datepicker'}))
+    # start_date_coupon = forms.DateField(widget=forms.DateInput(attrs={'class': 'datepicker'}))
+    
+    class Meta:
+        model = Discount
+        widgets = {
+            'start_date_coupon': DatePickerInput(format='%Y-%m-%d').start_of('event days'), # default date-format %m/%d/%Y will be used
+            'end_date_coupon': DatePickerInput(format='%Y-%m-%d').end_of('event days'), 
+             # 'start_date':DatePickerInput().start_of('event days'),
+            # 'end_date':DatePickerInput().end_of('event days'),# specify date-frmat
+        }
+        fields = '__all__'
 
+    def clean_date(self):
+        start_date_coupon = self.cleaned_data['start_date_coupon']
+        if start_date_coupon < date.today():
+            raise forms.ValidationError("The date cannot be in the past!")
+        return start_date_coupon
 
-# class ImageForm(forms.ModelForm):
-#     image = forms.ImageField(label='Image')
-#     class Meta:
-#         model = Images
-#         fields = ('image', )
+class TaxForm(forms.ModelForm):
+    # start_date_coupon = forms.DateFeild()
+    # end_date_coupon   = forms.DateFeild()
+    class Meta:
+        model = Tax
+        fields = '__all__'

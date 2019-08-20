@@ -1,0 +1,8 @@
+login signup(username,email,mobileno,address,billing,shiping,pic) api
+dashboard
+-(bannerid,url),)
+-products category,product(s)main(search filter), detail,pincode
+-cart
+-tax
+-checkout(cart_id,sub_total,)
+-order(txnid,userid,shipping address,amount,)

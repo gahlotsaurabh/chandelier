@@ -7,12 +7,12 @@ float:right !important;
 body {
   font-family: "Lato", sans-serif;
 }
-/*#index{
+.silver{
 
     background: #424242;
-    background: -webkit-linear-gradient(to right, #424242, #c7c7c7);
-    background: linear-gradient(to right, #424242, #c7c7c7);
-}*/
+    background: -webkit-linear-gradient(to right, #04d1c0, #662b62);
+    background: linear-gradient(to right, #04d1c0, #662b62);
+}
 
 .sidenav {
   height: 100%;
@@ -163,7 +163,7 @@ body{
 }
 
 .bg-c-green {
-    background: linear-gradient(45deg,#2ed8b6,#59e0c5);
+    background: linear-gradient(45deg,#6d5c6e,#a894a8);
 }
 /*profile page*/
 #pro_pic{

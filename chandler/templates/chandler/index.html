@@ -22,36 +22,69 @@
                     <div class="card-body">
                         <h3 class="text-right"><i class="fa fa-rocket f-left"></i><span>486</span></h3>
                     </div>
+                    <div class="card-footer "><p class=""><span class="f-left">Last Week</span><span class="f-right">291</span></p></div>
+                </div>
+        </div>
+        <div class="col-md-4 col-*-6 m-4">
+                <div class="card shadow bg-c-green order-card">
+                    <div class="card-header h4 text-left">Orders Received</div>
+                    <div class="card-body">
+                        <h3 class="text-right"><i class="fa fa-cart-plus f-left"></i><span>486</span></h3>
+                    </div>
                     <div class="card-footer "><p class=""><span class="f-left">Completed Orders</span><span class="f-right">351</span></p></div>
                 </div>
-            </div>
-            <div class="col-md-4 col-*-6 m-4">
+        </div>
+        <div class="col-md-4 col-*-6 m-4">
                 <div class="card shadow bg-c-green order-card">
-                    <div class="card-block">
-                        <h5 class="text-left">Orders Received</h5>
-                        <h2 class="text-right"><i class="fa fa-cart-plus f-left"></i><span>486</span></h2>
-                        <p class="m-b-0">Completed Orders<span class="f-right">351</span></p>
+                    <div class="card-header h4 text-left">Net Revenue</div>
+                    <div class="card-body">
+                        <h3 class="text-right"><i class="fa fa-credit-card f-left"></i><span>486</span></h3>
                     </div>
+                    <div class="card-footer "><p class=""><span class="f-left">Last Week</span><span class="f-right">400</span></p></div>
+                </div>
+        </div>
+        <div class="col-md-4 col-*-6 m-4">
+                <div class="card shadow bg-c-green order-card">
+                    <div class="card-header h4 text-left">Items Sold</div>
+                    <div class="card-body">
+                        <h3 class="text-right"><i class="fa fa-refresh f-left"></i><span>486</span></h3>
+                    </div>
+                    <div class="card-footer "><p class=""><span class="f-left">Performance</span><span class="f-right">70%</span></p></div>
+                </div>
+        </div>
+            <!-- <div class="col-md-4 col-*-6 m-4">
+                <div class="card shadow bg-c-green order-card">
+                     <div class="card-header h4 text-left">Orders Received</div>
+                      <div class="card-body">
+                        <h3 class="text-right"><i class="fa fa-cart-plus f-left"></i><span>356</span></h3>
+                      </div>
+                       <div class="card-footer "><p class=""><span class="f-left">Completed Orders</span><span class="f-right">351</span></p>
+                      </div>
+                </div>
                 </div>
             </div>
             <div class="col-md-4 col-*-6 m-4">
                 <div class="card shadow bg-c-green order-card">
-                    <div class="card-block">
-                        <h5 class="text-left">Net Revenue</h5>
-                        <h2 class="text-right"><i class="fa fa-credit-card f-left"></i><span>486</span></h2>
-                        <p class="m-b-0">Completed Orders<span class="f-right">351</span></p>
-                    </div>
+                        <div class="card-header h4 text-left">Net Revenue</div>
+                        <div class="card-body">
+                        <h3 class="text-right"><i class="fa fa-credit-card f-left"></i><span>486</span></h3>
+                      </div>
+                        <div class="card-footer ">
+                          <p class=""><span class="f-left">Completed Orders</span><span class="f-right">351</span></p>
+                        </div>
+                </div>
                 </div>
             </div>
             <div class="col-md-4 col-*-6 m-4">
                 <div class="card shadow bg-c-green order-card">
-                    <div class="card-block">
-                        <h5 class="text-left">Items Sold</h5>
-                        <h2 class="text-right"><i class="fa fa-refresh f-left"></i><span>486</span></h2>
-                        <p class="m-b-0">Completed Orders<span class="f-right">351</span></p>
+                        <div class="card-header h4 text-left">Items Sold</div>
+                      <div class="card-body">
+                        <h3 class="text-right"><i class="fa fa-refresh f-left"></i><span>486</span></h3>
+                      </div>
+                        <div class="card-footer "><p class=""><span class="f-left">Completed Orders</span><span class="f-right">351</span></p>
+                        </div>
                     </div>
-                </div>
-            </div>
+            </div> -->
     </div>
   </div>
   <div class="chart-container" id="mycha" >
@@ -60,7 +93,59 @@
 </div>
 </body>
     {% else %}
-     <div id="secmain">
+     <div class="container" style="">
+    <div class="jumbotron silver">
+       <form class="form-signin " method="post" action="{% url 'chandler:user_login' %}">
+        {% csrf_token %}
+        <body>
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                <div class="card card-signin my-5">
+                  <div class="card-body border-dark border">
+                    <img id="logo" class="mx-auto d-block" src="{% static 'css/logo.png' %}">
+                    <h3 class="card-title text-center border-bottom">Sign In</h3><br>
+                   
+                      <div class="form-label-group text-center">
+                        <label for="username">Username   :</label>
+                        <input type="text" name="username" placeholder="Username" required>
+
+                       <!--  <input type="username" id="inputEmail" class="form-control" placeholder="username" required autofocus>
+                        <label for="username">username</label> -->
+                      </div>
+
+                      <div class="form-label-group text-center">
+                        <br><label for="password">Password   :</label>
+                          <input type="password" name="password" placeholder="Password" required>
+                       <!--  <input type="password" id="password" class="form-control" placeholder="Password" required>
+                        <label for="password">Password</label> -->
+                      </div>
+                    <!--   <div class="custom-control custom-checkbox mb-3">
+                        <input type="checkbox" class="custom-control-input" id="customCheck1">
+                      </div> -->
+                      <div class="text-center p-4">
+                       <input class="btn btn-outline-success" type="submit" value="Login">
+                     </div>
+                     <!--  <input class="btn btn-outline-success" type="submit" value="Login"> -->
+                      <!-- <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button> -->
+                   
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </body>
+    
+     <!--     <label for="username">Username:</label>
+          <input type="text" name="username" placeholder="Username" required>
+          <br><label for="password">Password:</label>
+          <input type="password" name="password" placeholder="Password" required>
+          <br>
+          <input class="btn btn-outline-success" type="submit" value="Login"> -->
+      </form>
+    </div>
+  </div>
+     <!-- <div id="secmain">
       <div class="container-fluid" id="cont">
         <div id="carouselExampleIndicators" class="w-100 container-fluid carousel slide" data-ride="carousel">
           <ol class="carousel-indicators">
@@ -99,13 +184,13 @@
               </a>
         </div>
       </div>
-    </div>
-      <section class="py-5">
+    </div> -->
+   <!--    <section class="py-5">
         <div class="container-fluid jumbotron">
           <h1 class="font-weight-light"></h1>
           <p class="lead"><a href=" "></a></p>
         </div>
-      </section>
+      </section> -->
 {% endif %}
 
 {% endblock %}

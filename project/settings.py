@@ -32,7 +32,7 @@ SECRET_KEY = '=3e33ss(r!xbqbpc(3-v*!)hoa@sis-u5wf3b@ao&+%zpj-t76'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['8151222c.ngrok.io','127.0.0.1']
+ALLOWED_HOSTS = ['777de19d.ngrok.io','127.0.0.1']
 
 
 # Application definition
@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'widget_tweaks',
     'rest_framework',
+    'rest_framework.authtoken',
+    'bootstrap_datepicker_plus',
     # 'django_filter',
     # 'Pillow',
 ]
@@ -144,3 +146,10 @@ MEDIA_URL = '/media/'
 # AUTH_USER_MODEL = 'core.User'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 AUTH_PROFILE_MODULE = 'chandler.Profile'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}

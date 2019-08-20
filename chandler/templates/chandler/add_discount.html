@@ -1,0 +1,60 @@
+{% extends "chandler/base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+{% if user.is_authenticated %}
+
+<div class="container jumbotron main" >
+<h2 class="pl-3 border-bottom border-secondary">Add new coupon here...</h2>
+	<form method="POST" class="form1">
+    {% csrf_token %}
+    {{ form.media }}
+    <div class="row">
+      <div class="col-6">
+        {{ form.coupon_name|as_crispy_field }}
+      </div>
+      <div class="col-6">
+        {{ form.value|as_crispy_field }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        {{ form.coupon_type|as_crispy_field }}
+      </div>
+      <div class="col-6">
+        {{ form.coupon_code|as_crispy_field }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6 datepicker" id="dpicker">
+        {{ form.start_date_coupon|as_crispy_field }}
+      </div>
+      <div class="col-6 datepicker" id="datepicker">
+        {{ form.end_date_coupon|as_crispy_field }}
+      </div>
+    </div>
+     <div class="row">
+      <div class="col-6">
+        {{ form.is_active.label }}
+        {{ form.is_active }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        {{ form.coupon_description|as_crispy_field }}
+      </div>	
+    </div>
+    <div class="p-3">
+   	 <button type="submit" class="btn btn-success">Save!</button>
+    </div>
+  </form>
+</div>
+{% else %}
+
+<h2>Please login first!!!!</h2>
+
+{% endif %}
+
+{% endblock %}

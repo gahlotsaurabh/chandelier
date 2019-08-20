@@ -2,6 +2,10 @@ $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();   
 });
 
+// $( function() {
+//   $( ".datepicker" ).datepicker();
+// } );
+
 // $('.dropdown-toggle').dropdown();
 
 // window.onload=(function(){ 

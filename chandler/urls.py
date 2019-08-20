@@ -24,5 +24,15 @@ urlpatterns=[
     path('category_detail/<int:pk>/',CategoryDetail.as_view(),name='category_detail'),
     path('<int:pk>/category_update',CategoryUpdate.as_view(),name='product_update'),
     path('<int:pk>/category_delete',CategoryDelete.as_view(),name='product_delete'),
+    url(r'^discount/$',views.discount_management,name='coupon'),
+    path('discount_list/',DiscountList.as_view(),name='discount_list'),
+    path('discount_detail/<int:pk>/',DiscountDetail.as_view(),name='discount_detail'),
+    path('<int:pk>/discount_update',DiscountUpdate.as_view(),name='discount_update'),
+    path('<int:pk>/discount_delete',DiscountDelete.as_view(),name='discount_delete'),
+    url(r'^add_tax/$',views.tax_management,name='coupon'),
+    path('tax_list/',TaxList.as_view(),name='tax_list'),
+    path('tax_detail/<int:pk>/',TaxDetail.as_view(),name='tax_detail'),
+    path('<int:pk>/tax_update',TaxUpdate.as_view(),name='tax_update'),
+    path('<int:pk>/tax_delete',TaxDelete.as_view(),name='tax_delete'),
 
 ]

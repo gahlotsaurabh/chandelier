@@ -1,0 +1,22 @@
+{% extends "chandler/base.html" %}
+
+{% load staticfiles %}
+
+{% block content %}
+<div class="row main">
+    <div class="col-lg-7 mx-auto text-center pt-5">
+        <h5 class="display-4">Tax Details</h5>
+      
+    </div>
+        </div>
+    <div class="main">
+            <div class="media-body mb-5 row pl-4 bg-dark text-white">
+                <div class="col-*-6">
+            	<h4 class="h3">Tax Name  : {{ object.tax_name }}</h4>
+                <p>description : {{ object.tax_description }}</p>
+                <p>value : {{ object.tax_value }}</p>
+                </div>
+            </div>
+    </div>
+<link rel="stylesheet" href="{% static 'css/product_detail.css' %}">
+{% endblock %}

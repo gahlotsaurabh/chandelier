@@ -1,0 +1,23 @@
+{% extends "chandler/base.html" %}
+
+{% load staticfiles %}
+
+{% block content %}
+<div class="row main">
+    <div class="col-lg-7 mx-auto text-center pt-5">
+        <h5 class="display-4">Coupon Details</h5>
+      
+    </div>
+        </div>
+    <div class="main">
+            <div class="media-body mb-5  bg-dark text-white">
+            	<div class="p-4">
+                <h4 class="h3">Coupon Name  : {{ object.coupon_name }}</h4>
+                <p>Value : {{ object.value }}</p>
+                <p>Coupon code : {{ object.coupon_code }}</p>
+                <p>Type : {{ object.coupon_type }}</p>
+                </div>
+            </div>
+    </div>
+<link rel="stylesheet" href="{% static 'css/product_detail.css' %}">
+{% endblock %}

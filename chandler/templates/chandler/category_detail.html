@@ -10,9 +10,9 @@
     </div>
         </div>
     <div class="main">
-            <div class="media-body mb-5 text-center bg-dark text-white">
-            	<h4 class="h3">Category Name  : {{ object.category_name }}</h4>
-                <p>category relation : {{ object.cate_fk }}</p>
+            <div class="media-body px-4 mb-5 bg-dark text-white">
+            	<h4 class="h3">Category Name :  {{ object.category_name }}</h4>
+                <p class="h3">Parent : {{ object.cate_fk }}</p>
             </div>
     </div>
 <link rel="stylesheet" href="{% static 'css/product_detail.css' %}">

@@ -1,0 +1,38 @@
+{% extends "chandler/base.html" %}
+
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+{% if user.is_authenticated %}
+
+<div class="container jumbotron main" >
+<h2 class="pl-3 border-bottom border-secondary">Add new Tax here...</h2>
+	<form method="POST" class="form1">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-6">
+        {{ form.tax_name|as_crispy_field }}
+      </div>
+      <div class="col-6">
+        {{ form.tax_value|as_crispy_field }}
+      </div>
+    </div>    
+    <div class="row">
+      <div class="col-12">
+        {{ form.tax_description|as_crispy_field }}
+      </div>	
+    </div>
+    <div class="p-3">
+   	 <button type="submit" class="btn btn-success">Save!</button>
+    </div>
+  </form>
+</div>
+{% else %}
+
+<h2>Please login first!!!!</h2>
+
+{% endif %}
+
+{% endblock %}

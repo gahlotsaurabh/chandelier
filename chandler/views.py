@@ -8,7 +8,7 @@ from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.forms import modelformset_factory
 from django.views.generic import (ListView,DetailView,UpdateView,DeleteView)
-from .models import Product,Profile,Category
+from .models import Product,Profile,Category,Tax
 from .filters import ProductFilter
 from django.forms.models import model_to_dict
 from django.contrib.auth.models import User
@@ -29,7 +29,6 @@ def user_logout(request):
 
 def register(request):
 	registered = False
-	# print(request)
 	if request.method =='POST':
 		user_form = UserForm(data=request.POST)
 		profile_form = UserProfileForm(data=request.POST)
@@ -60,12 +59,10 @@ class UserUpdate(UpdateView):
 	def get_success_url(self):
 		return reverse('chandler:user_list')
 
-
 @method_decorator(login_required, name='dispatch')
 class UserDetail(DetailView):
     template_name = 'chandler/user_detail.html'
     queryset = Profile.objects.all()
-
 
 @method_decorator(login_required, name='dispatch')
 class UserDelete(DeleteView):
@@ -80,7 +77,6 @@ class UserList(ListView):
     template_name 	= 'chandler/userlist.html'
     queryset 	  	= Profile.objects.all()
     context_object_name = 'profile_list'
-
 
 def user_login(request):
 	if request.method == 'POST':
@@ -104,21 +100,17 @@ def user_login(request):
 
 @login_required
 def product_management(request):
-    # print("herere!!!0")
     form = ProductForm(request.POST,request.FILES)
     if request.method =='POST':
         if form.is_valid():
             post=form.save(commit=True)
             if 'picture' in request.FILES:
                 form.picture =request.FILES['picture']
-                # print("herere!!!1")
             return HttpResponseRedirect(reverse('chandler:product_list'))
         else:
              return render(request,'chandler/product.html',{'form':form}) 
-             # print("herere!!!2")    
     else:
         form = ProductForm()
-        # print("herere!!!3")
         return render(request,'chandler/product.html',{'form':form})     
 
 @method_decorator(login_required, name='dispatch')
@@ -129,10 +121,6 @@ class ProductUpdate(UpdateView):
 
 	def get_success_url(self):
 		return reverse('chandler:product_list')
-	# def get_object(self):
-	# 	id_ = self.kwargs.get('product_id')
-	# 	return get_object_or_404(Product,id=id_)
-
 
 @method_decorator(login_required, name='dispatch')
 class ProductDelete(DeleteView):
@@ -142,47 +130,23 @@ class ProductDelete(DeleteView):
 	def get_success_url(self):
 		return reverse('chandler:product_list')
 
-	# def get_object(self):
-	# 	id_ = self.kwargs.get('product_id')
-	# 	return get_object_or_404(Product,id=id_)
-
-
 @method_decorator(login_required, name='dispatch')
 class ProductList(ListView):
     template_name 	= 'chandler/product_list.html'
     queryset 	  	= Product.objects.all()
-    ordering = ['product_id']
-
-    # filterset_class	= ProductFilter
-
-    # def get_queryset(self):
-    #     self.product = get_object_or_404(Product, product_name=self.kwargs['product'])
-    #     return Product.objects.filter(product=self.product)
-    # def product_list(request):
-    #     product = Product.objects.all()
-
-    # # filter results!
-    #     if request.method == 'GET':
-    #         q = request.GET['q']
-    #         # print(q)
-    #         if q != '':
-    #             product = product.filter(product_name__contains=q)
-    #             print(product)
-    #     context = {'product_name': product_name}
-    #     return render_to_response('chandler/product_list.html', context)
+    ordering		= ['product_id']
 
 @method_decorator(login_required, name='dispatch')
 class ProductDetail(DetailView):
     template_name = 'chandler/product_detail.html'
     queryset 	  = Product.objects.all()
 
-
 #category code below!!!!
 @method_decorator(login_required, name='dispatch')
 class CategoryList(ListView):
     template_name 	= 'chandler/category_list.html'
     queryset 	  	= Category.objects.all()
-    ordering = ['cate_id']
+    ordering 		= ['cate_fk']
 
 @method_decorator(login_required, name='dispatch')
 class CategoryDetail(DetailView):
@@ -219,3 +183,89 @@ def category_management(request):
     else:
         form = CategoryForm()
         return render(request,'chandler/add_category.html',{'form':form}) 
+
+#  Discounts
+@method_decorator(login_required, name='dispatch')
+class DiscountList(ListView):
+    template_name 	= 'chandler/discount_list.html'
+    queryset 	  	=   Discount.objects.all()
+    ordering = ['coupon_id']
+
+@method_decorator(login_required, name='dispatch')
+class DiscountDetail(DetailView):
+    template_name = 'chandler/discount_detail.html'
+    queryset 	  =   Discount.objects.all()
+
+@method_decorator(login_required, name='dispatch')
+class DiscountDelete(DeleteView):
+	template_name = 'chandler/discount_delete.html'
+	queryset =   Discount.objects.all()
+
+	def get_success_url(self):
+		return reverse('chandler:discount_list')
+
+
+@method_decorator(login_required, name='dispatch')
+class DiscountUpdate(UpdateView):
+	form_class =   DiscountForm
+	template_name = 'chandler/add_discount.html'
+	queryset =   Discount.objects.all()
+
+	def get_success_url(self):
+		return reverse('chandler:discount_list')
+
+@login_required
+def discount_management(request):
+    form = DiscountForm(request.POST)
+    if request.method =='POST':
+        if form.is_valid():
+            post=form.save(commit=True)
+            return HttpResponseRedirect(reverse('chandler:discount_list'))
+        else:
+             return render(request,'chandler/add_discount.html',{'form':form})
+    else:
+        form =   DiscountForm()
+        return render(request,'chandler/add_discount.html',{'form':form}) 
+
+#tax
+@method_decorator(login_required, name='dispatch')
+class TaxList(ListView):
+    template_name 	= 'chandler/tax_list.html'
+    queryset 	  	=  Tax.objects.all()
+    ordering 		= ['id']
+
+@method_decorator(login_required, name='dispatch')
+class TaxDetail(DetailView):
+    template_name = 'chandler/tax_detail.html'
+    queryset 	  =   Tax.objects.all()
+
+@method_decorator(login_required, name='dispatch')
+class TaxDelete(DeleteView):
+	template_name = 'chandler/tax_delete.html'
+	queryset 	  = Tax.objects.all()
+
+	def get_success_url(self):
+		return reverse('chandler:tax_list')
+
+
+@method_decorator(login_required, name='dispatch')
+class TaxUpdate(UpdateView):
+	form_class 		=  TaxForm
+	template_name 	= 'chandler/add_tax.html'
+	queryset 		=  Tax.objects.all()
+
+	def get_success_url(self):
+		return reverse('chandler:tax_list')
+
+@login_required
+def tax_management(request):
+    form = TaxForm(request.POST)
+    if request.method =='POST':
+        if form.is_valid():
+            post=form.save(commit=True)
+            return HttpResponseRedirect(reverse('chandler:tax_list'))
+        else:
+             return render(request,'chandler/add_tax.html',{'form':form})
+    else:
+        form =   TaxForm()
+        return render(request,'chandler/add_tax.html',{'form':form}) 

@@ -8,7 +8,7 @@
 {% if user.is_authenticated %}
 
 <div class="container jumbotron main" >
-<h2 class="pl-3">Add new product here...</h2>
+<h2 class="pl-3 border-bottom border-secondary m-4">Add new product here...</h2>
 	<form method="POST" class="form1" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="row">
