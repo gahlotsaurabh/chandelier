@@ -26,6 +26,7 @@ urlpatterns = [
     path('auth/', include('rest_framework.urls')),
     path('tokth/', obtain_auth_token, name='api_token_auth'),
     path('login', login),
+    path('oh', OrderHistroyAPIView.as_view()),
     # path('cre/<int:pk>/', Createcart.as_view()),
     url(r'^', include(router.urls)),
 

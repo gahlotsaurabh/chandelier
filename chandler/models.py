@@ -4,6 +4,7 @@ from django_enumfield import enum
 from django.utils.timezone import now
 from django.utils import timezone   
 from datetime import datetime
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
 class Profile(models.Model):
@@ -91,12 +92,17 @@ class Cart(models.Model):
     user         = models.OneToOneField(User,on_delete=models.SET_NULL, null=True,related_name="carts")
     items        = models.ManyToManyField(Product,blank=True,through='Cart_item',related_name='in_cart')
 
+    def __str__(self):
+        return self.user.username
 
 class Cart_item(models.Model):
     cart          = models.ForeignKey(Cart,on_delete=models.SET_NULL,null=True,related_name='cart')
     product       = models.ForeignKey(Product,on_delete=models.CASCADE,related_name='product')
-    product_count = models.IntegerField(default=1)
+    product_count = models.IntegerField(default=1,validators=[MinValueValidator(1),MaxValueValidator(7)])
 
+    def __str__(self):
+        ok = "---".join([self.product.product_name, self.cart.user.username])
+        return ok
 
 class ShippingAddress(models.Model):
     name     = models.CharField("Full name",max_length=50)
@@ -108,15 +114,23 @@ class ShippingAddress(models.Model):
     city     = models.CharField("City",max_length=50)
     state    = models.CharField("State",max_length=50)
 
+    def __str__(self):
+        if self.user == None:
+            return self.name
+        return self.user.username
+
 
 class OrderHistroy(models.Model):
-    user             = models.ForeignKey(User,on_delete=models.SET_NULL, null=True)
+    user             = models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
     product          = models.ForeignKey(Product,on_delete=models.CASCADE)
-    shippingaddress  = models.ForeignKey(ShippingAddress,on_delete=models.SET_NULL,null=True)
-    txnid            = models.CharField(max_length=50)
-    firstname        = models.CharField(max_length=20)
-    item_no          = models.CharField(max_length=50)
-    checksum         = models.CharField(max_length=50)
-    status           = models.CharField(max_length=50)
-    amount           = models.IntegerField()
+    shippingaddress  = models.ForeignKey(ShippingAddress,on_delete=models.CASCADE)
+    txnid            = models.CharField(max_length=50,null=True)
+    firstname        = models.CharField(max_length=20,null=True)
+    item_no          = models.CharField(max_length=50,null=True)
+    checksum         = models.CharField(max_length=50,null=True)
+    status           = models.CharField(max_length=50,null=True)
+    amount           = models.IntegerField(null=True)
     orderplaced_on   = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.user.username

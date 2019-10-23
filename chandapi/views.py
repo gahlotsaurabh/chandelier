@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 from .serializers import *
-from chandler.models import Product,Cart,Cart_item,ShippingAddress,Discount
+from chandler.models import Product,Cart,Cart_item,ShippingAddress,Discount,OrderHistroy
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
 from rest_framework import generics,filters,viewsets
@@ -61,15 +61,16 @@ class Shipadd(generics.GenericAPIView):
         shipad = ShippingAddress.objects.filter(user=request.user)
         # if (shipad != NULL):
         se = ShippingAddressSerializer(shipad,many=True)
-        # if shipad.exists():
-        # import ipdb;ipdb.set_trace()
+        if se.data == None:
+            return Response({'error':'no address'},status=status.HTTP_400_BAD_REQUEST)
         return Response(se.data,status=status.HTTP_200_OK)
-        # else:
-        #     return Response(status=status.HTTP_404_NOT_FOUND)
-        # else:
-
+        # import ipdb;ipdb.set_trace()
+   
     def post(self, request, format=None):
+        user= request.user
         serializer = ShippingAddressSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.validated_data['user'] = user
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -104,52 +105,30 @@ class CoupontAPIView(generics.GenericAPIView):
     # permission_classes = [IsAuthenticated]
     serializer_class = CouponSerializer
 
-    def post(self, request,*args, **kwargs):
-        u = request.data['cc']
-        coupon = Discount.objects.get(coupon_code=u)
-        # co = CouponSerializer(coupon)
-        # import ipdb;ipdb.set_trace()
+    def post(self, request, format=None):
+        uww = request.data['cc']
+        coupon = Discount.objects.get(coupon_code=uww)
         if coupon.is_active :
             co ={
                 'coupon_value' : coupon.value,
                 'typ': coupon.coupon_type
             }
             return Response(co)
-        return Response({'error': 'coupon inactive'},
-                        status=HTTP_404_NOT_FOUND)    
+        return Response({'error': 'coupon inactive'})
 
     def get_coupon(self, request,*args, **kwargs):
         coupon = Discount.objects.get_or_404(coupon_code=request)
         return coupon
 
-    # def post(self, request, format=None):
-    #     coup = get_coupon(request.data['ccode'])
-    #     # test = get_object_or_404(Discount,coupon_id=coup.coupon_id)
-    #     if coup.isexist():
-    #         if coup.is_active == True :
-    #             # if coup.coupon_type == PERCENT_TYPE :
-    #             return coup.value
-    #         return Response('inactive coupon')
-    #     return Response(coup)    
-            
-#
+  
 class CartAPIView(generics.GenericAPIView):
     # authentication_classes = [SessionAuthentication]
     permission_classes = [IsAuthenticated]
     serializer_class = CartSerializer
 
     def get_cart(self, request,*args, **kwargs):
-        # cart_id = Cart.objects.all().filter(user_id=request.user.id)
-        # cart_id = self.request.GET.get(self.request.user.id)
-        # print(cart_id,'yyyyyyyyyyyy')
-        # print(self.request.user)
         cart = Cart.objects.get(user=request.user)
         # import ipdb;ipdb.set_trace()
-        # try:
-        #     cart = Cart.objects.all(id=cart_id)
-        # except:
-        #     pass
-            # cart = Cart.objects.get(id=2)
         return cart
 
     
@@ -160,16 +139,6 @@ class CartAPIView(generics.GenericAPIView):
         ser = CartSerializer(car)
         ll = [sera.data,ser.data]
         # import ipdb;ipdb.set_trace()
-        # data = [{
-        #     "cart id" : cart.id,
-        #     "items": cart.items.count(),
-        #     'user' : cart.user.username,
-        #     'req' : self.request.user.username,
-        #     "product": cart.items.values(), #ca.values_list('product_count',flat=True),
-        #     "qua" : ca.values_list('product_count',flat=True) ,
-        #     # 'sub total': cart.items.price
-        # }]
-
         return Response(ll, status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
@@ -193,21 +162,10 @@ class CartAPIView(generics.GenericAPIView):
                 content = {
                         'status': 1, 
                         'responseCode' : status.HTTP_200_OK,
-                            # 'data'    : 
-                            # 'data'    : 
-                            # 'data'    : 
-                            # 'data'    :
-                            # 'data'    : 
                         "cart id" : user_cart.id,
                         "items_in_cart"   : user_cart.items.count(),
                         'user'    : user_cart.user.username,
-                        # 'req'     : self.request.user.username,
-                        # 'count'   : all_counts,
                         'dom'     : ser_ial.data,
-                        # 'custom'   : cart_items.values(),
-                        # 'cartii'  : cart_items.values(),
-                        # 'data'    : serializer.data,
-                        # "product" : user_cart.items.values('price','product_id','product_name'),
                         }
                 return Response(content)
             user_item.update(product_count=F('product_count')-1)
@@ -217,58 +175,23 @@ class CartAPIView(generics.GenericAPIView):
                  content = {
                         'status': 1, 
                         'responseCode' : status.HTTP_200_OK,
-                            # 'data'    : 
-                            # 'data'    : 
-                            # 'data'    : 
-                            # 'data'    :
-                            # 'data'    : 
                         "cart id" : user_cart.id,
                         "items_in_cart"   : user_cart.items.count(),
                         'user'    : user_cart.user.username,
-                        # 'req'     : self.request.user.username,
-                        # 'count'   : all_counts,
                         'dom'     : ser_ial.data,
-                        # 'custom'   : cart_items.values(),
-                        # 'cartii'  : cart_items.values(),
-                        # 'data'    : serializer.data,
-                        # "product" : user_cart.items.values('price','product_id','product_name'),
                         }
                  return Response(content)
-                 # cart_serializer = CartSerializer(user_cart)
-                 # serializer_list = serializer.data
-                 #    # content = {
-                 #    # 'status': 1, 
-                 #    # 'responseCode' : status.HTTP_200_OK, 
-                 #    # 'data': Serializer_list,
-                 #    # }
-                 # return Response(sera.data)
-            # Serializer_list = [serializer.data, sera.data]
+                 
             content = {
             'status': 1, 
-            'responseCode' : status.HTTP_200_OK,
-                # 'data'    : 
-                # 'data'    : 
-                # 'data'    : 
-                # 'data'    :
-                # 'data'    : 
+            'responseCode' : status.HTTP_200_OK, 
             "cart id" : user_cart.id,
             "items_in_cart"   : user_cart.items.count(),
             'user'    : user_cart.user.username,
-            # 'req'     : self.request.user.username,
-            # 'count'   : all_counts,
             'dom'     : ser_ial.data,
-            # 'custom'   : cart_items.values(),
-            # 'cartii'  : cart_items.values(),
-            # 'data'    : serializer.data,
-            # "product" : user_cart.items.values('price','product_id','product_name'),
-            }
+             }
             return Response(content)
-                # return Response(sera.data, status=status.HTTP_200_OK)
-            # return Response(sera.data, status=status.HTTP_200_OK)
-            # return Response(del_)
         else:
-            # request.data['product_id']
-            # if requeata['product_id']: 
             req = request.data['product_id']
             pro = Product.objects.get(product_id=req)
             old_cart,new_cart = Cart.objects.get_or_create(user=request.user)
@@ -277,12 +200,7 @@ class CartAPIView(generics.GenericAPIView):
             cart_items     = Cart_item.objects.filter(cart=user_cart.id)
             all_counts     = cart_items.values_list('product_count',flat=True)
             ser_ial        = CartItemtwoSerializer(cart_items,many=True)
-            # k = Cart_item.objects.filter(cart=new_cart.id).filter(product_id=req)
-
-            # import ipdb;ipdb.set_trace()
-            # if Cart_item.objects.filter(product_id=req).exists():
-                # k = Cart_item.objects.filter(cart_id=request.user.id)
-                # k.product_count += 1
+            
 
             if old_cart:
                 old = Cart_item.objects.filter(cart=old_cart.id).filter(product_id=req)
@@ -293,94 +211,24 @@ class CartAPIView(generics.GenericAPIView):
                 content = {
                             'status': 1, 
                             'responseCode' : status.HTTP_200_OK,
-                                # 'data'    : 
-                                # 'data'    : 
-                                # 'data'    : 
-                                # 'data'    :
-                                # 'data'    : 
                             "cart id" : user_cart.id,
                             "items_in_cart"   : user_cart.items.count(),
                             'user'    : user_cart.user.username,
-                            # 'req'     : self.request.user.username,
-                            # 'count'   : all_counts,
                             'dom'     : ser_ial.data,
-                            # 'custom'   : cart_items.values(),
-                            # 'cartii'  : cart_items.values(),
-                            # 'data'    : serializer.data,
-                            # "product" : user_cart.items.values('price','product_id','product_name'),
                             }
                 return Response(content) 
             else:
-                    # new = Cart_item.objects.filter(cart=new_cart.id).filter(product_id=req)
-                    # new.update(product_count=F('product_count'))
                 new_cart.items.add(pro)
                 old         = Cart_item.objects.filter(cart=old_cart.id).filter(product_id=req)
-                # item_serializer       = CartItemSerializer(old,many=True)
                 content = {
                             'status': 1, 
                             'responseCode' : status.HTTP_200_OK,
-                                # 'data'    : 
-                                # 'data'    : 
-                                # 'data'    : 
-                                # 'data'    :
-                                # 'data'    : 
+                            
                             "cart id" : user_cart.id,
                             "items_in_cart"   : user_cart.items.count(),
                             'user'    : user_cart.user.username,
-                            # 'req'     : self.request.user.username,
-                            # 'count'   : all_counts,
-                            # 'dom'     : sera.data,
-                            # 'custom'   : cart_items.values(),
-                            # 'cartii'  : cart_items.values(),
-                            # 'data'    : serializer.data,
-                            # "product" : user_cart.items.values('price','product_id','product_name'),
                             }
                 return Response(content)
-                # serializer  = CartSerializer(new_cart)
-                # return Response(sera.data, status=status.HTTP_200_OK)
-    # serializer_class = ProductSerializer
-
-
-
-
-# class Createcart(generics.RetrieveUpdateDestroyAPIView):
-#     serializer_class = CartSerializer
-#     lookup_field = 'pk'
-
-#     def get_queryset(self):
-#         return Cart.objects.all()
-
-#     # def post(self, request, format=None):
-#     #     serializer = CartSerializer(data=request.data)
-#     #     if serializer.is_valid():
-#     #         serializer.save()
-#     #         return Response(serializer.data, status=status.HTTP_201_CREATED)
-#     #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-#     def put(self, request, pk, format=None):
-#         snip = self.get_or_404bject()
-#         serializer = CartSerializer(snip, data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data)
-#         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
-
-    
-    
-#     @action(detail=True, methods=['post'])
-#     def add_to_cart(self, request, pk):
-#         cart_obj = Cart.objects.get_or_404(request)
-#         product_id = pk
-#         qs = Product.objects.filter(id=product_id)
-#         if qs.count() == 1:
-#             product_obj = qs.first()
-#             if product_obj not in cart_obj.products.all():
-#                 cart_obj.products.add(product_obj)
-#             else:
-#                 cart_obj.products.remove(product_obj)
-#             request.session['cart_items'] = cart_obj.products.count()
-#         return Response(status=status.HTTP_200_OK, data={'message': 'Product has been added to cart'
-
 
 class CartViewSet(viewsets.ModelViewSet):
     model = Cart
@@ -396,85 +244,42 @@ class CartViewSet(viewsets.ModelViewSet):
         cart_obj.items.set()
         cart_obj.product.add(*product_obj)
         return cart_obj
-        # cart_obj = Cart.objects.get_or_404(request)
-        # product_id = pk
-        # qs = Product.objects.filter(id=pk)
-        # if qs.count() == 1:
-        #     product_obj = qs.first()
-        #     if product_obj not in cart_obj.products.all():
-        #         cart_obj.products.add(*product_obj)
-        #         # items.set(product_obj)
-        #     else:
-        #         cart_obj.products.remove(product_obj)
-        #     request.session['cart_items'] = cart_obj.products.count()
-        # return Response(status=status.HTTP_200_OK, data={'message': 'Product has been added to cart'})
-
-    # def put(self, request, pk, format=None):
-    #     snip = self.get_object(id=pk)
-    #     serializer = CartSerializer(snip, data=request.data)
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response(serializer.data)
-    #     return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
+    # return Response(status=status.HTTP_200_OK, data={'message': 'Product has been added to cart'})
 
 
-    # def get(self, request,pk):
-    #     print(self.request.user)
-    #     snip = self.get_object(pk)
-    #     serializer = CartSerializer(snip)
-    #     return Response(serializer.data)
+class OrderHistroyAPIView(generics.GenericAPIView):
+    # permission_classes = [IsAuthenticated]
+    serializer_class = OrderHistroySerializer
 
-# class AddProduct(ProductApiView, viewsets.ModelViewSet):
+    def get(self,request,*args,**kwargs):
+        shipad = ShippingAddress.objects.filter(user=request.user)
+        # if (shipad != NULL):
+        se = OrderHistroySerializer(shipad,many=True)
+        if se.data == None:
+            return Response({'error':'no order found'},status=status.HTTP_400_BAD_REQUEST)
+        return Response(se.data,status=status.HTTP_200_OK)
+        # import ipdb;ipdb.set_trace()
+        # if shipad.exists():        # else:
+        #     return Response(status=status.HTTP_404_NOT_FOUND)
+        # else:
 
-#     @action(detail=True, methods=['post'])
-#     def add_to_cart(self, request, pk):
-#         cart_obj = Cart.objects.get_or_404(request)
-#         product_id = pk
-#         qs = Product.objects.filter(id=product_id)
-#         if qs.count() == 1:
-#             product_obj = qs.first()
-#             if product_obj not in cart_obj.products.all():
-#                 cart_obj.products.add(product_obj)
-#             else:
-#                 cart_obj.products.remove(product_obj)
-#             request.session['cart_items'] = cart_obj.products.count()
-#         return Response(status=status.HTTP_200_OK, data={'message': 'Product has been added to cart'
+    def post(self, request, format=None):
+        user        = request.user
+        user_cart   = Cart.objects.get(user=request.user)
+        cart_items  = Cart_item.objects.filter(cart=user_cart.id)
+        ci          = cart_items.values_list('product_id')
+        # od          = OrderHistroy.objects.create(user=user,product_id=ci)
+        # import ipdb;ipdb.set_trace()
+        for i in range(0,3):
+            # j=0
+            pro    = Product.objects.get(i[0][0])
+            OrderHistroy.product.add(pro)
+            # j+=1       
+        serializer  = OrderHistroySerializer(data=request.data)
+        if serializer.is_valid():
 
-# @permission_classes((AllowAny,))
-# @api_view(['post'])
-# def add_to_cart(request):
-#     print('request')
-#     if request.method == 'POST':
-#         if not request.user.is_authenticated:
-#             #log.info(request.user.id)
-
-#             data = JSONParser().parse(request)
-#             # log.info(data)
-#             product_id = data['product_id']
-#             # size = data['size']
-#             quantity = data['quantity']
-
-#             user = User.objects.get(username='admin')
-#             product = Product.objects.get(id=product_id)
-
-#             price = float(quantity) * product.price
-#             print(user)
-
-#             #user = request.user
-#             try:
-#                 cart = Cart.objects.get(product_id=product_id, user=user)
-#                 cart.quantity += 1
-#                 cprice += product.price
-#             except Cart.DoesNotExist:
-#                 cart = Cart.objects.create(product_id=product_id, user=user,quantity=quantity, price=price)
-#             cart.save()
-#             carts = Cart.objects.filter(user=user)
-#             cart_quantity = len(carts)
-
-#             if cart:
-#                 return Response({'message': 'success', 'quantity': cart_quantity, 'user_id': user.id},
-#                                 status=status.HTTP_201_CREATED)
-#             else:
-#                 return Response({'message': 'error'}, status=status.HTTP_400_BAD_REQUEST)
-#         else:
-#             return Response({'error': 'Authentication failed'}, status=status.HTTP_400_BAD_REQUEST)
+            serializer.validated_data['user'] = user
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

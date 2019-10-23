@@ -30,7 +30,7 @@ class ProductSerializer(serializers.ModelSerializer):
 class ShippingAddressSerializer(serializers.ModelSerializer):
     class Meta:
       model = ShippingAddress
-      fields = ('__all__')
+      fields = ('name','user','address1','address2','zip_code','fone_no','city','state')
 
 class ProfileSerializer(serializers.ModelSerializer):
     mobile_no        = serializers.CharField(required=True,validators=[UniqueValidator(queryset=Profile.objects.all())])
